@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ካቮድ ቡና — ከፍሬ እስከ ሲኒ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #090605;
+      color: #f5ebe0;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+    .story-track {
+      position: relative;
+      height: 500vh;
+    }
+    .sticky-box {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 3rem;
+    }
+    #hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .overlay-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9,6,5,0.88) 0%, rgba(9,6,5,0.2) 45%, rgba(9,6,5,0.55) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hud-card {
+      position: relative;
+      z-index: 5;
+      max-width: 640px;
+      width: 92%;
+      padding: 1.5rem 1.75rem;
+      border-radius: 1.25rem;
+      background: rgba(14, 9, 7, 0.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(217, 167, 115, 0.25);
+    }
+    #three-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .main-section {
+      position: relative;
+      z-index: 10;
+      background: rgba(14, 10, 8, 0.94);
+      min-height: 100vh;
+      padding: 5rem 1.5rem;
+      border-top: 1px solid rgba(217, 167, 115, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="three-canvas"></canvas>
+
+  <section id="story-section" class="story-track">
+    <div class="sticky-box">
+      <video id="hero-video" src="43312.mp4" muted playsinline preload="auto"></video>
+      <div class="overlay-grad"></div>
+
+      <div class="hud-card">
+        <div class="flex items-center justify-between text-xs text-amber-400 mb-1">
+          <span id="step-badge">00:00 – 00:04 • የቡና ፍሬ መከፈት</span>
+          <span id="pct-label">0%</span>
+        </div>
+        <h1 id="step-title" class="text-xl md:text-2xl font-bold mb-1">ቀዩ የቡና ፍሬ ተከፍቶ ውስጡ ሲታይ</h1>
+        <p id="step-desc" class="text-sm text-stone-300 mb-4">
+          ገጹን ወደ ታች ያንሸራትቱ — የእርስዎ ቪዲዮ በScroll ሲንቀሳቀስ በቅደም ተከተል ይታያል።
+        </p>
+
+        <div class="w-full h-1.5 bg-stone-800 rounded-full overflow-hidden mb-4">
+          <div id="progress-bar" class="h-full bg-amber-400 w-0 transition-none"></div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button id="play-toggle" class="px-4 py-2 rounded-full bg-amber-500 text-stone-950 font-semibold text-xs hover:bg-amber-400">
+            ▶ ቪዲዮውን በራሱ አጫውት
+          </button>
+          <button id="go-main" class="px-4 py-2 rounded-full border border-amber-400/50 text-amber-200 text-xs hover:bg-amber-400/10">
+            ወደ 3D ዋና ገጽ እለፍ ↓
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main id="main-3d" class="main-section">
+    <div class="max-w-5xl mx-auto">
+      <p class="text-xs uppercase tracking-widest text-amber-400 mb-2">ዋና ገጽ (3D)</p>
+      <h2 class="text-3xl md:text-5xl font-bold mb-4">የካቮድ ቡና መስተንግዶ</h2>
+      <p class="text-stone-300 max-w-2xl mb-10">
+        ከፍሬ እስከ ሲኒ ያለው ቪዲዮ ሲያልቅ እዚህ 3D ገጽ ላይ ይደርሳሉ። ከዚህ ጀርባ ያለው 3D አኒሜሽን በቀጥታ ይንቀሳቀሳል።
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-10">
+        <div class="p-6 rounded-2xl bg-stone-900/80 border border-amber-500/20">
+          <h3 class="font-bold text-amber-300 mb-2">ፍሬ እና ጥበሳ</h3>
+          <p class="text-sm text-stone-300">ጥሬ የቡና ፍሬ ተመርጦ፣ ተቆልቶ እና በትክክለኛ ደረጃ ተፈጭቶ ይቀርባል።</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-stone-900/80 border border-amber-500/20">
+          <h3 class="font-bold text-amber-300 mb-2">ወርቃማ ቀረጻ</h3>
+          <p class="text-sm text-stone-300">ክሬማው የበለጸገ ቡና ወደ ሲኒ በስሎው ሞሽን ይቀዳል።</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-stone-900/80 border border-amber-500/20">
+          <h3 class="font-bold text-amber-300 mb-2">3D ተሞክሮ</h3>
+          <p class="text-sm text-stone-300">ለድረ-ገጹ ዘመናዊ ገጽታ የሚሰጥ ቀላል የ3D ዳራ እንቅስቃሴ።</p>
+        </div>
+      </div>
+
+      <button id="back-top" class="px-5 py-2.5 rounded-full border border-amber-400/50 text-amber-300 text-xs hover:bg-amber-400/10">
+        ↑ ወደ ቪዲዮው መጀመሪያ ተመለስ
+      </button>
+    </div>
+  </main>
+
+  <script>
+    const video = document.getElementById('hero-video');
+    const track = document.getElementById('story-section');
+    const progressBar = document.getElementById('progress-bar');
+    const pctLabel = document.getElementById('pct-label');
+    const stepBadge = document.getElementById('step-badge');
+    const stepTitle = document.getElementById('step-title');
+    const stepDesc = document.getElementById('step-desc');
+    const playBtn = document.getElementById('play-toggle');
+
+    const timeline = [
+      { max: 0.15, badge: '00:00 – 00:04 • መከፈት', title: 'ቀዩ የቡና ፍሬ ተከፍቶ ውስጡ ሲታይ', desc: 'ፍሬው በመሃሉ ተከፍቶ ውስጡ ያሉት ፍሬዎች ብቅ ይላሉ።' },
+      { max: 0.35, badge: '00:05 – 00:10 • ጥሬ ፍሬ', title: 'ሁለቱ የቡና ፍሬዎች በእንፋሎት መሃል', desc: 'ፍሬዎቹ በለስላሳ እንቅስቃሴ ይንሳፈፋሉ።' },
+      { max: 0.50, badge: '00:11 – 00:14 • መቆላትና መሰበር', title: 'የተቆሉ ፍሬዎችና መፈረካከስ', desc: 'ቡናማ ፍሬዎች ቀለም ቀይረው ይሰበራሉ።' },
+      { max: 0.72, badge: '00:15 – 00:21 • መፍጨት/መፍሰስ', title: 'የተፈጨ ቡና ወደ ታች ሲፈስ', desc: 'ደቂቅ የቡና ቅንጣቶች በስሎው ሞሽን ይወርዳሉ።' },
+      { max: 1.01, badge: '00:22 – 00:30 • በሲኒ ሲቀዳ', title: 'ቡናው በሲኒ ውስጥ ሲቀዳና ሲረጋጋ', desc: 'ወርቃማ ቡና ሲኒውን ሞልቶ ሲያበቃ ወደ 3D ገጽ ያልፋል።' }
+    ];
+
+    let autoPlaying = false;
+
+    function syncVideoToScroll() {
+      if (autoPlaying) return;
+      const rect = track.getBoundingClientRect();
+      const scrollable = track.offsetHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+
+      const p = Math.min(Math.max(-rect.top / scrollable, 0), 1);
+      progressBar.style.width = `${(p * 100).toFixed(1)}%`;
+      pctLabel.textContent = `${Math.round(p * 100)}%`;
+
+      const seg = timeline.find(item => p <= item.max) || timeline[timeline.length - 1];
+      stepBadge.textContent = seg.badge;
+      stepTitle.textContent = seg.title;
+      stepDesc.textContent = seg.desc;
+
+      if (video.readyState >= 2 && Number.isFinite(video.duration) && video.duration > 0) {
+        const target = p * video.duration;
+        if (Math.abs(video.currentTime - target) > 0.05) {
+          video.currentTime = target;
+        }
+      }
+    }
+
+    window.addEventListener('scroll', () => requestAnimationFrame(syncVideoToScroll), { passive: true });
+
+    playBtn.addEventListener('click', () => {
+      autoPlaying = !autoPlaying;
+      if (autoPlaying) {
+        playBtn.textContent = '⏸ አቁም';
+        video.play().catch(() => {});
+      } else {
+        playBtn.textContent = '▶ ቪዲዮውን በራሱ አጫውት';
+        video.pause();
+        syncVideoToScroll();
+      }
+    });
+
+    video.addEventListener('timeupdate', () => {
+      if (!autoPlaying || !video.duration) return;
+      const p = video.currentTime / video.duration;
+      progressBar.style.width = `${(p * 100).toFixed(1)}%`;
+      pctLabel.textContent = `${Math.round(p * 100)}%`;
+      const seg = timeline.find(item => p <= item.max) || timeline[timeline.length - 1];
+      stepBadge.textContent = seg.badge;
+      stepTitle.textContent = seg.title;
+      stepDesc.textContent = seg.desc;
+    });
+
+    video.addEventListener('ended', () => {
+      if (autoPlaying) {
+        autoPlaying = false;
+        playBtn.textContent = '▶ ቪዲዮውን በራሱ አጫውት';
+        document.getElementById('main-3d').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    document.getElementById('go-main').addEventListener('click', () => {
+      document.getElementById('main-3d').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('back-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Three.js 3D Background
+    const canvas = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const count = 900;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * 12;
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color: 0xd9a773, size: 0.035, transparent: true, opacity: 0.6 });
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    (function loop() {
+      requestAnimationFrame(loop);
+      points.rotation.y += 0.0008;
+      points.rotation.x += 0.0003;
+      renderer.render(scene, camera);
+    })();
+  </script>
+</body>
+</html>
